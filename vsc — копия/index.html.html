@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FreeStuff для Геймеров — Бесплатные ресурсы</title>
+  <style>
+    /* 🎨 ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ */
+    :root {
+      --bg-gradient: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      --text: #e4e4e7;
+      --text-muted: #a1a1aa;
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --card-hover-border: rgba(0, 217, 255, 0.3);
+      --accent: #00d9ff;
+      --accent-grad: linear-gradient(135deg, #00d9ff, #00ff88);
+      --accent-text: #1a1a2e;
+      --tag-bg: rgba(0, 217, 255, 0.15);
+      --tag-text: #00d9ff;
+      --shadow: rgba(0, 0, 0, 0.3);
+      --nav-bg: rgba(22, 24, 36, 0.8);
+    }
+
+    /* ☀️ СВЕТЛАЯ ТЕМА */
+    [data-theme="light"] {
+      --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+      --text: #0f172a;
+      --text-muted: #64748b;
+      --card-bg: #ffffff;
+      --card-border: rgba(0, 0, 0, 0.08);
+      --card-hover-border: rgba(14, 165, 233, 0.4);
+      --accent: #0ea5e9;
+      --accent-grad: linear-gradient(135deg, #0ea5e9, #10b981);
+      --accent-text: #ffffff;
+      --tag-bg: rgba(14, 165, 233, 0.12);
+      --tag-text: #0ea5e9;
+      --shadow: rgba(0, 0, 0, 0.1);
+      --nav-bg: rgba(255, 255, 255, 0.85);
+    }
+
+    /* БАЗА */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text);
+      min-height: 100vh;
+      padding-top: 80px;
+      transition: background 0.3s, color 0.3s;
+    }
+
+    .container { max-width: 1020px; margin: 0 auto; padding: 0 20px 60px; }
+
+    /* 🧭 ШАПКА */
+    .top-bar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      padding: 12px 20px;
+      background: var(--nav-bg);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--card-border);
+      z-index: 100;
+      transition: background 0.3s;
+    }
+
+    .logo { font-size: 18px; font-weight: 700; color: var(--text); white-space: nowrap; }
+
+    .filters { display: flex; gap: 8px; flex-wrap: wrap; }
+    .filter-btn {
+      padding: 8px 14px;
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border-color: var(--tag-text);
+    }
+
+    .theme-btn {
+      width: 40px; height: 40px;
+      background: transparent;
+      border: 1px solid var(--card-border);
+      color: var(--text);
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 18px;
+      display: flex; align-items: center; justify-content: center;
+      transition: all 0.2s;
+    }
+    .theme-btn:hover { background: var(--tag-bg); transform: rotate(15deg); }
+
+    /* 📦 КАТАЛОГ */
+    header.intro { text-align: center; margin-bottom: 40px; padding-top: 20px; }
+    h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+      background: var(--accent-grad);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .subtitle { color: var(--text-muted); font-size: 15px; }
+
+    .resources {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 22px;
+      transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s, opacity 0.3s;
+      animation: fadeIn 0.4s ease;
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px var(--shadow);
+      border-color: var(--card-hover-border);
+    }
+    .card.hidden { display: none; }
+
+    .card-icon { font-size: 28px; margin-bottom: 10px; }
+    .card h3 { font-size: 17px; margin-bottom: 6px; color: var(--text); }
+    .card p { font-size: 14px; color: var(--text-muted); line-height: 1.5; margin-bottom: 14px; }
+
+    .tag {
+      display: inline-block;
+      padding: 4px 10px;
+      background: var(--tag-bg);
+      color: var(--tag-text);
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      margin-right: 6px; margin-bottom: 6px;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 12px;
+      padding: 10px 18px;
+      background: var(--accent-grad);
+      color: var(--accent-text);
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 14px;
+      transition: opacity 0.2s;
+    }
+    .card a:hover { opacity: 0.9; }
+
+    /* 🦶 ПОДВАЛ */
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 24px;
+      border-top: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    footer a { color: var(--accent); text-decoration: none; }
+
+    /* 📱 МОБИЛЬНАЯ ПОДГОНКА */
+    @media (max-width: 600px) {
+      h1 { font-size: 28px; }
+      .top-bar { justify-content: center; }
+      .filters { justify-content: center; }
+      .resources { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🧭 ШАПКА -->
+  <nav class="top-bar">
+    <div class="logo">🎮 FreeStuff</div>
+    <div class="filters">
+      <button class="filter-btn active" data-filter="all">Все</button>
+      <button class="filter-btn" data-filter="games">Игры</button>
+      <button class="filter-btn" data-filter="assets">Ассеты</button>
+      <button class="filter-btn" data-filter="engine">Движки</button>
+      <button class="filter-btn" data-filter="tools">Софт</button>
+      <button class="filter-btn" data-filter="audio">Звуки</button>
+    </div>
+    <button class="theme-btn" id="theme-toggle" aria-label="Сменить тему"></button>
+  </nav>
+
+  <div class="container">
+    <header class="intro">
+      <h1>Бесплатные ресурсы для игр</h1>
+      <p class="subtitle">Собрано вручную. Без регистрации. Без подвохов.</p>
+    </header>
+
+    <div class="resources">
+      <!-- 1 -->
+      <div class="card" data-category="assets">
+        <div class="card-icon">🎨</div>
+        <h3>Kenney.nl</h3>
+        <p>Тысячи бесплатных 2D/3D ассетов, UI и звуков. Лицензия CC0.</p>
+        <span class="tag">Ассеты</span><span class="tag">2D/3D</span>
+        <a href="https://kenney.nl" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 2 -->
+      <div class="card" data-category="audio">
+        <div class="card-icon">🎵</div>
+        <h3>OpenGameArt</h3>
+        <p>Бесплатная музыка, звуки и спрайты. Удобный поиск по лицензии.</p>
+        <span class="tag">Звуки</span><span class="tag">Музыка</span>
+        <a href="https://opengameart.org" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 3 -->
+      <div class="card" data-category="assets">
+        <div class="card-icon">📦</div>
+        <h3>Itch.io Assets</h3>
+        <p>Огромная библиотека от инди-авторов. Много бесплатных паков.</p>
+        <span class="tag">Ассеты</span><span class="tag">Инди</span>
+        <a href="https://itch.io/game-assets/free" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 4 -->
+      <div class="card" data-category="engine">
+        <div class="card-icon">⚙️</div>
+        <h3>Godot Engine</h3>
+        <p>Лёгкий, бесплатный и с открытым кодом. Идеален для новичков.</p>
+        <span class="tag">Движок</span><span class="tag">Open Source</span>
+        <a href="https://godotengine.org" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 5 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">🎬</div>
+        <h3>OBS Studio</h3>
+        <p>Стандарт для стримов и записи геймплея. Гибкая настройка сцен.</p>
+        <span class="tag">Стриминг</span><span class="tag">Запись</span>
+        <a href="https://obsproject.com" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 6 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">🖌️</div>
+        <h3>Krita</h3>
+        <p>Мощный бесплатный редактор для рисования. Отлично для текстур.</p>
+        <span class="tag">Графика</span><span class="tag">Редактор</span>
+        <a href="https://krita.org" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 7 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">👾</div>
+        <h3>Piskel</h3>
+        <p>Бесплатный онлайн-редактор для пиксельной анимации и спрайтов.</p>
+        <span class="tag">Пиксель-арт</span><span class="tag">2D</span>
+        <a href="https://www.piskelapp.com/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 8 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">💻</div>
+        <h3>Visual Studio Code</h3>
+        <p>Лёгкий и мощный редактор кода. Поддерживает все языки и плагины.</p>
+        <span class="tag">Редактор</span><span class="tag">Код</span>
+        <a href="https://code.visualstudio.com/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 9 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">🗺️</div>
+        <h3>Tiled Map Editor</h3>
+        <p>Мощный редактор уровней для 2D игр. Экспортирует в любой движок.</p>
+        <span class="tag">Левел-дизайн</span><span class="tag">2D</span>
+        <a href="https://www.mapeditor.org/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 10 -->
+      <div class="card" data-category="assets">
+        <div class="card-icon">🎭</div>
+        <h3>Mixamo</h3>
+        <p>Тысячи бесплатных 3D анимаций и готовых персонажей от Adobe.</p>
+        <span class="tag">3D</span><span class="tag">Анимация</span>
+        <a href="https://www.mixamo.com/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 11 -->
+      <div class="card" data-category="assets">
+        <div class="card-icon">🌳</div>
+        <h3>Poly Haven</h3>
+        <p>Коллекция текстур и 3D-моделей высочайшего качества. Лицензия CC0.</p>
+        <span class="tag">Текстуры</span><span class="tag">HDRI</span>
+        <a href="https://polyhaven.com/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 12 -->
+      <div class="card" data-category="audio">
+        <div class="card-icon">🔊</div>
+        <h3>Freesound</h3>
+        <p>База данных звуковых эффектов и сэмплов. Всё от сообщества.</p>
+        <span class="tag">Звуки</span><span class="tag">SFX</span>
+        <a href="https://freesound.org/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 🎮 НОВЫЕ 10 РЕСУРСОВ ДЛЯ ГЕЙМЕРОВ -->
+      <!-- 13 -->
+      <div class="card" data-category="games">
+        <div class="card-icon">🎁</div>
+        <h3>Epic Games Store</h3>
+        <p>Каждую неделю раздают 1–2 полноценные игры навсегда. Библиотека растёт быстро.</p>
+        <span class="tag">Игры</span><span class="tag">Бесплатно</span>
+        <a href="https://store.epicgames.com/ru/free-games" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 14 -->
+      <div class="card" data-category="games">
+        <div class="card-icon">📀</div>
+        <h3>GOG.com</h3>
+        <p>Платформа без DRM. Часто раздают классику и инди. Все купленные игры — твои навсегда.</p>
+        <span class="tag">Игры</span><span class="tag">DRM-free</span>
+        <a href="https://www.gog.com/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 15 -->
+      <div class="card" data-category="games">
+        <div class="card-icon">🚀</div>
+        <h3>Steam Free-to-Play</h3>
+        <p>Огромный раздел бесплатных игр: от шутеров и MOBA до симуляторов и стратегий.</p>
+        <span class="tag">Игры</span><span class="tag">F2P</span>
+        <a href="https://store.steampowered.com/genre/Free%20to%20Play/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 16 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">🎮</div>
+        <h3>Playnite</h3>
+        <p>Открытый лаунчер, который объединяет Steam, Epic, GOG и другие библиотеки в одном окне.</p>
+        <span class="tag">Лаунчер</span><span class="tag">Open Source</span>
+        <a href="https://playnite.link/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 17 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">📊</div>
+        <h3>MSI Afterburner</h3>
+        <p>Мониторинг FPS, температур и нагрузки в реальном времени. Плюс разгон видеокарты.</p>
+        <span class="tag">Мониторинг</span><span class="tag">Оверклок</span>
+        <a href="https://www.msi.com/Landing/afterburner" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 18 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">📸</div>
+        <h3>ShareX</h3>
+        <p>Легковесная утилита для скриншотов, записи экрана и автозагрузки. Без рекламы.</p>
+        <span class="tag">Скриншоты</span><span class="tag">Запись</span>
+        <a href="https://getsharex.com/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 19 -->
+      <div class="card" data-category="games">
+        <div class="card-icon">🗄️</div>
+        <h3>RAWG</h3>
+        <p>Крупнейшая база данных игр с оценками, трейлерами и персональными рекомендациями.</p>
+        <span class="tag">Каталог</span><span class="tag">API</span>
+        <a href="https://rawg.io/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 20 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">⏱️</div>
+        <h3>HowLongToBeat</h3>
+        <p>Узнай, сколько часов займёт прохождение любой игры. Планируй время без сюрпризов.</p>
+        <span class="tag">Планирование</span><span class="tag">Гайды</span>
+        <a href="https://howlongtobeat.com/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 21 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">🔧</div>
+        <h3>PCGamingWiki</h3>
+        <p>Энциклопедия фиксов, твиков и оптимальных настроек для тысяч ПК-игр.</p>
+        <span class="tag">Оптимизация</span><span class="tag">Фиксы</span>
+        <a href="https://www.pcgamingwiki.com/" target="_blank">Перейти →</a>
+      </div>
+
+      <!-- 22 -->
+      <div class="card" data-category="tools">
+        <div class="card-icon">💬</div>
+        <h3>Discord</h3>
+        <p>Голосовой и текстовый чат для геймеров. Создавай серверы, находи тиммейтов и следи за новинками.</p>
+        <span class="tag">Коммуникация</span><span class="tag">Сообщество</span>
+        <a href="https://discord.com/" target="_blank">Перейти →</a>
+      </div>
+    </div>
+
+    <footer>
+      <p>Сделано с 💙 для геймеров и разработчиков</p>
+      <p style="margin-top: 6px; font-size: 12px;">Поддержать проект: <a href="#">Donation link</a></p>
+    </footer>
+  </div>
+
+  <script>
+    // 🌗 ПЕРЕКЛЮЧЕНИЕ ТЕМЫ
+    const themeBtn = document.getElementById('theme-toggle');
+    const html = document.documentElement;
+    const saved = localStorage.getItem('theme') || 'dark';
+    html.setAttribute('data-theme', saved);
+    themeBtn.textContent = saved === 'dark' ? '🌙' : '☀️';
+
+    themeBtn.addEventListener('click', () => {
+      const current = html.getAttribute('data-theme');
+      const next = current === 'dark' ? 'light' : 'dark';
+      html.setAttribute('data-theme', next);
+      localStorage.setItem('theme', next);
+      themeBtn.textContent = next === 'dark' ? '🌙' : '☀️';
+    });
+
+    // 🔍 ФИЛЬТРАЦИЯ КАРТОЧЕК
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const filter = btn.getAttribute('data-filter');
+
+        cards.forEach(card => {
+          if (filter === 'all' || card.getAttribute('data-category') === filter) {
+            card.classList.remove('hidden');
+            card.style.animation = 'none';
+            void card.offsetWidth;
+            card.style.animation = 'fadeIn 0.35s ease';
+          } else {
+            card.classList.add('hidden');
+          }
+        });
+      });
+    });
+  </script>
+</body>
+</html>
